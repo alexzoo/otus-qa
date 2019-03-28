@@ -1,7 +1,7 @@
 import pytest
 
 """
-unit tests
+unit my_tests
 """
 
 def test_sum():
