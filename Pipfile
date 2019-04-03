@@ -10,6 +10,7 @@ pytest = "*"
 pylint = "*"
 pytest-sugar = "*"
 requests = "*"
+pytest-ordering = "*"
 
 [requires]
 python_version = "3.7"

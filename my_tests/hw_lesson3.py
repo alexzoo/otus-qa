@@ -41,6 +41,7 @@ HEADERS_LIST = [{"Content-type": "application/json"}, {"Content-type": "text/htm
 BREEDS_LIST = ['affenpinscher', 'african', 'akita', 'boxer', 'bulldog']
 
 
+@pytest.mark.run(order=2)
 @pytest.mark.parametrize('endpoints', API_ENDPOINTS)
 def test_by_endpoints(endpoints):
     """
@@ -52,6 +53,7 @@ def test_by_endpoints(endpoints):
     assert resp.status_code == 200
 
 
+@pytest.mark.run(order=1)
 @pytest.mark.parametrize('breeds', BREEDS_LIST)
 def test_by_breeds(breeds):
     """
@@ -86,3 +88,30 @@ def test_by_encoding(encoding):
     assert resp.apparent_encoding == encoding
 
 
+#  https://www.openbrewerydb.org/
+
+url = 'https://api.openbrewerydb.org/breweries'
+
+types_of_sorts = ['by_state', 'by_name', 'by_tag']
+pagination = ['page=2', 'per_page=10']
+
+
+@pytest.mark.parametrize('sort', types_of_sorts)
+@pytest.mark.parametrize('page', pagination)
+def test_by_types_sort_and_pagination(sort, page):
+    resp = requests.get(url + '?' + sort + '?' + page)
+    assert resp.status_code == 200
+
+
+@pytest.mark.parametrize('nums', [x for x in range(10)])
+def test_pagination2(nums):
+    url = 'https://api.openbrewerydb.org/breweries?page={}'.format(nums)
+    resp = requests.get(url)
+    assert resp.status_code == 200
+
+
+@pytest.mark.parametrize('per_page', [0, 1, 25, 49, 50, 51])
+def test_pagination3(per_page):
+    url = 'https://api.openbrewerydb.org/breweries?per_page={}'.format(per_page)
+    resp = requests.get(url)
+    assert resp.status_code == 200
