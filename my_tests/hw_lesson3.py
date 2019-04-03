@@ -90,7 +90,7 @@ def test_by_encoding(encoding):
 
 #  https://www.openbrewerydb.org/
 
-url = 'https://api.openbrewerydb.org/breweries'
+base_url = 'https://api.openbrewerydb.org/breweries'
 
 types_of_sorts = ['by_state', 'by_name', 'by_tag']
 pagination = ['page=2', 'per_page=10']
@@ -99,19 +99,23 @@ pagination = ['page=2', 'per_page=10']
 @pytest.mark.parametrize('sort', types_of_sorts)
 @pytest.mark.parametrize('page', pagination)
 def test_by_types_sort_and_pagination(sort, page):
-    resp = requests.get(url + '?' + sort + '?' + page)
+    resp = requests.get(base_url + '?' + sort + '?' + page)
     assert resp.status_code == 200
 
 
 @pytest.mark.parametrize('nums', [x for x in range(10)])
 def test_pagination2(nums):
-    url = 'https://api.openbrewerydb.org/breweries?page={}'.format(nums)
+    url = base_url + '?page={}'.format(nums)
     resp = requests.get(url)
     assert resp.status_code == 200
 
 
 @pytest.mark.parametrize('per_page', [0, 1, 25, 49, 50, 51])
 def test_pagination3(per_page):
-    url = 'https://api.openbrewerydb.org/breweries?per_page={}'.format(per_page)
+    url = base_url + '?per_page={}'.format(per_page)
     resp = requests.get(url)
     assert resp.status_code == 200
+
+
+#  https://cdnjs.com/api
+
