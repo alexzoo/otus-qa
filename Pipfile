@@ -11,6 +11,7 @@ pylint = "*"
 pytest-sugar = "*"
 requests = "*"
 pytest-ordering = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.7"
